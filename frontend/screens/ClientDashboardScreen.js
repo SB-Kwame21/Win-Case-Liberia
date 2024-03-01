@@ -3,6 +3,7 @@ import {
     View, 
     Text, 
     ImageBackground, 
+    Image, 
     StyleSheet, 
     TouchableOpacity, 
     ScrollView, 
@@ -12,16 +13,14 @@ import {
 import { 
     Ionicons, 
     MaterialIcons,  
-    MaterialCommunityIcons   } from '@expo/vector-icons';
+    MaterialCommunityIcons,
+    AntDesign, 
+  } from '@expo/vector-icons';
 
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import Color from '../Config/Color';
-import { useNavigation } from '@react-navigation/native';
 
-function LawfirmDashboard({route}) {
-    const { lawfirm } = route.params ?? {};
-    const lawfirmId = lawfirm?.id;
-    const navigation = useNavigation();
+function ClientDashboardScreen({navigation}) {
     return (
         <ImageBackground
        style={styles.background}
@@ -34,27 +33,28 @@ function LawfirmDashboard({route}) {
             <Text style={styles.textLogo}>WC</Text>
             <Text style={styles.lib}>Lib</Text>
             </View>
-
-        <View style={styles.appointmentBtn}> 
-         <MaterialCommunityIcons name="checkbox-multiple-marked" size={24} marginTop={3} color={Color.primary} onPress={() => navigation.navigate('Appointments')}/>
+         <View style={styles.appointmentBtn}> 
+         <MaterialCommunityIcons name="checkbox-multiple-marked" size={24} marginTop={3} color={Color.primary} onPress={() => navigation.navigate('My Appointments')}/>
          </View>
             </View>
             <View style={styles.container}>
             {/* showPagination */}
-    <SwiperFlatList autoplay autoplayDelay={2} autoplayLoop index={2} showPagination paginationStyle={{ position: 'absolute', left: 10, bottom: 4 }}>
+            <SwiperFlatList autoplay autoplayDelay={2} autoplayLoop index={2} showPagination paginationStyle={{ position: 'absolute', left: 10, bottom: 4 }}>
       <View style={[styles.child, ]}>
+        {/* <Text style={styles.text}>1</Text> */}
         <View style={styles.infoContainer}>
               <Text style={styles.infoText}>Welcome to</Text>
         
               <Text style={styles.infotextBold}>Win Case Liberia</Text>
 
-              <Text  style={styles.infoText}>WC is poised to transform the 
+              <Text  style={styles.infoText}>WCL is poised to transform the 
               legal services industry by providing a convenient, efficient, 
               and accessible platform for clients to connect with experienced lawyers and law Firms. </Text>
             
             </View> 
       </View>
       <View style={[styles.child, ]}>
+        {/* <Text style={styles.text}>2</Text> */}
         <View style={styles.infoContainer}>
               <Text style={styles.infoText}>We've </Text>
         
@@ -66,6 +66,7 @@ function LawfirmDashboard({route}) {
             </View> 
       </View>
       <View style={[styles.child, ]}>
+        {/* <Text style={styles.text}>3</Text> */}
         <View style={styles.infoContainer}>
               <Text style={styles.infoText}>We've</Text>
               <Text style={styles.infotextBold}>Reliable Lawfirms</Text>
@@ -73,10 +74,13 @@ function LawfirmDashboard({route}) {
                having options to chose the best law Firm of their choice.</Text>
             </View> 
       </View>
+      {/* <View style={[styles.child, { backgroundColor: 'teal' }]}>
+        <Text style={styles.text}>4</Text>
+      </View> */}
     </SwiperFlatList>
   </View>
             
-            <View style={styles.mainMainContainer}>   
+            <View style={styles.mainMenuContainer}>   
             <View style={styles.menuContainer}>
             <ScrollView  horizontal={true}  showsHorizontalScrollIndicator={false}>
             <View style={styles.iconBox}>
@@ -94,14 +98,15 @@ function LawfirmDashboard({route}) {
             
             <View style={styles.iconBox}>
             <View style={styles.iconBoxChild}>
-            <MaterialCommunityIcons name="google-circles-communities" size={30} color={Color.primary} onPress={() => navigation.navigate('Community')} />
-            <Text style={styles.iconDescription}>All Law-firms</Text>
+            <AntDesign name="team" size={30} color={Color.primary} onPress={() => navigation.navigate('Lawyers/Lawfirms')} />
+            <Text style={styles.iconDescription}>Find Lawyer</Text>
             </View>
             </View>     
 
             <View style={styles.iconBox}>
             <View style={styles.iconBoxChild} >
             <MaterialIcons name="account-circle" size={30} color={Color.primary} onPress={() => navigation.navigate('Profile')} />
+            {/* <Foundation name="torso-business" size={30} color={Color.primary} onPress={() => navigation.navigate('About Us')} /> */}
             <Text style={styles.iconDescription} >Profile</Text>
             </View>
             </View>
@@ -109,14 +114,12 @@ function LawfirmDashboard({route}) {
   
             </ScrollView>
             </View>
-           <TouchableOpacity style={styles.opacityBody} onPress={() => navigation.navigate('Appointments')} >
-            <Text style={styles.appointmenText}  onPress={() => navigation.navigate('Appointments', { lawfirmId: lawfirm })}>Appointments</Text>
+           <TouchableOpacity style={styles.opacityBody} onPress={() => navigation.navigate('Lawyers/Lawfirms')} >
+            <Text style={styles.appointmenText}  onPress={() => navigation.navigate('Lawyers/Lawfirms')}>Book an appointments</Text>
            </TouchableOpacity>
            </View>
            </View>
-        <StatusBar style={styles.statusBar}>
-
-        </StatusBar>
+           <StatusBar backgroundColor={Color.primary} barStyle="light-content" />
        </ImageBackground>
   )
 };
@@ -130,6 +133,7 @@ const styles = StyleSheet.create({
         marginTop: 150,
         },
     child: { width, },
+    // text: { fontSize: width * 0.1, textAlign: 'center' },
     infoContainer:{
         width: '80%',
         height : 160,
@@ -139,6 +143,8 @@ const styles = StyleSheet.create({
       infoText:{
         color: Color.white,
         fontSize: 15,
+        // fontSize: width  * 0.1,
+        
         },
     
         infotextBold: {
@@ -149,6 +155,8 @@ const styles = StyleSheet.create({
           marginBottom: 10,
     
         },
+    
+   
     background: {
         flex: 1,
         width: '100%',
@@ -156,17 +164,14 @@ const styles = StyleSheet.create({
        
     },
     navContainer: {
+    // backgroundColor: '#fff',
     width: '100%',
     height: 80,
     justifyContent: 'space-between',
+    // alignItems: 'center',
     flexDirection: 'row',
     marginTop: 50,
     },
-
-    appointmentBtn: {
-        width: 35,
-        height: 30, 
-           },
     logoContin: {
         width: 100,
         height: 40,
@@ -186,9 +191,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',  
     },
 
-logoutBtn: {
+    appointmentBtn: {
  width: 35,
- height: 20, 
+ height: 30, 
     },
 
     notificationIcon: {
@@ -209,7 +214,7 @@ backgroundColor: Color.white,
 marginTop: 130, 
     },
 
-    mainMainContainer: {
+    mainMenuContainer: {
         flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',
@@ -224,6 +229,8 @@ marginTop: 130,
         marginBottom: 10,
         borderRadius: 5,
         justifyContent: 'center', 
+       
+
     },
 
     menuContainer: {
@@ -231,7 +238,7 @@ marginTop: 130,
         flexDirection: 'row',
         width: '100%',
         height: 85,
-
+     
     },
 
     iconBox: {
@@ -268,4 +275,4 @@ marginTop: 130,
 
 });
 
-export default  LawfirmDashboard;
+export default ClientDashboardScreen

@@ -92,7 +92,7 @@ const ClientSignUpScreen = function ({ navigation }) {
         resizeMode="cover"
       >
         <View style={styles.backgroundOpacity}>
-            <ScrollView vertical={true}  showsVerticalScrollIndicator={false}>
+            {/* <ScrollView vertical={true}  showsVerticalScrollIndicator={false}> */}
           <SafeAreaView style={styles.container}>
             <Text style={styles.signUpText}>Sign Up</Text>
               <View style={styles.form}>
@@ -142,7 +142,7 @@ const ClientSignUpScreen = function ({ navigation }) {
               </View>
          
           </SafeAreaView>
-          </ScrollView>
+          {/* </ScrollView> */}
         </View>
         <StatusBar backgroundColor={Color.primary} barStyle="light-content" />
       </ImageBackground>
@@ -156,78 +156,64 @@ const styles = StyleSheet.create({
       height: '100%',
        
     },
-    navContainer: {
-    width: '100%',
-    height: 50,
-    alignItems: 'center',
-    flexDirection: 'row',
-    margin: 3,
-    },
-    
-    
-    
+ 
     backgroundOpacity: {
        width: '100%',
         height: '100%',
         backgroundColor: Color.secondary,
        
     },
+
+    navContainer: {
+      width: '100%',
+      height: 50,
+      alignItems: 'center',
+      flexDirection: 'row',
+      margin: 3,
+      },
     
     container: {
-       flex: 1,           
-       padding: 10,  
-       paddingHorizontal: 30,  
+      flex: 1,
+      justifyContent: 'center',
+      padding: 10,  
+      paddingHorizontal: 30,  
        
     },
     signUpText: {
-       fontSize: 20,
+      fontSize: 25,
        fontWeight: 'bold',
-       color: 'white', 
-       marginBottom: 20,
-       marginTop: 100,
+       color: Color.white, 
+       marginTop: 20,
+       marginBottom: 10,
        alignSelf: "center",
        color: Color.white,
-    
     },
 
 
 
     form: {
-      width: '100%',
-      height: '100%',
-      alignItems: "center",
-      marginTop: 40,
+      justifyContent: "space-between",
+       alignContent: "center",
    },
   
-   scrollContainer:{
-    width: '100%',
-    height: '100%',
-   },
+  //  scrollContainer:{
+  //   width: '100%',
+  //   height: '100%',
+  //  },
   
    input: {
       height: 40,
-      width: '80%',
+      width: '100%',
       borderColor: Color.primary, 
       borderWidth: 1,
       borderRadius: 5,
       marginTop: 15,
-      paddingHorizontal: 10,
+      paddingHorizontal: 20,
       color: Color.white,
+      alignSelf: 'center',
    
    },
-   
-    
-    // inputPicker: {
-    //    height: 40,
-    //    width: '100%',
-    //    borderColor: Color.primary,
-    //    borderWidth: 1,
-    //    borderRadius: 5,
-    //    marginTop: 15,
-    //    paddingHorizontal: 10,
-    //    color: Color.white,
-    // },
-    
+  
     optionText: {
        color: Color.white,
     },
@@ -236,7 +222,7 @@ const styles = StyleSheet.create({
        backgroundColor: Color.primary,
        padding: 13,  
        marginTop: 30,
-       width: '80%',
+       width: '100%',
        alignSelf: 'center',
        marginBottom: 20,
        borderRadius: 5,

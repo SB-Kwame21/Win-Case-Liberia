@@ -58,7 +58,7 @@ const LawyerProfileScreen = ({ navigation }) => {
         <View style={styles.container}>
             <View style={styles.imageBox} >
             <View style={styles.navContainer}>
-         <AntDesign name="left" size={24} color={Color.white} onPress={() => navigation.navigate('Profile')}/>
+         <AntDesign name="left" size={24} color={Color.white} onPress={() => navigation.navigate('Dashboard')}/>
          <Text style={styles.pointHome}>Back</Text>
          </View>
                 <Pressable onPress={pickImage}>
@@ -76,7 +76,6 @@ const LawyerProfileScreen = ({ navigation }) => {
                 </Pressable>
 
                 <Text style={styles.label}>{`${currentUserData[0]}`}</Text>
-                {/* <Text style={styles.label}>{`${currentUserData[0]}`}</Text> */}
             </View>
 
             <View style={styles.profileOption}>
@@ -120,7 +119,8 @@ const styles = StyleSheet.create({
         height: 50,
         alignItems: 'center',
         flexDirection: 'row',
-        marginBottom: 125,
+        marginBottom: 100,
+        marginTop: 50,
         },
    
         pointHome: {

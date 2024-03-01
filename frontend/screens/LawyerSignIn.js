@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react';
 import {View, Text, ImageBackground, StyleSheet, TouchableOpacity, ScrollView, StatusBar, 
     TextInput, Alert} from 'react-native';
@@ -47,8 +45,14 @@ function LawyerSignIn({ navigation }) {
             AsyncStorage.setItem('UserId', String(id));
             AsyncStorage.setItem('userName', username);
 
-            // Navigate to the authenticated
-            navigation.navigate('Dashboard')
+
+              // This prevent route back to the login screen when login
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'Dashboard' }],
+            });
+
+       
 
         }).catch((err) => {
             // Handle login failure
@@ -104,7 +108,8 @@ function LawyerSignIn({ navigation }) {
                 </TouchableOpacity>
   
                 <TouchableOpacity>
-                    <Text style={styles.optionText} onPress={() => navigation.navigate('UpdateLawyerPassword')} >Forget Password?</Text>
+                    <Text style={styles.optionText}>Forget Password?</Text>
+                    {/* onPress={() => navigation.navigate('UpdateLawyerPassword')}  */}
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -128,7 +133,7 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     flexDirection: 'row',
-    margin: 3,
+    marginTop: 30,
     },
     
     

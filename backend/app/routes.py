@@ -15,7 +15,6 @@ from app.resources.user import (
     
 )
 
-
 from app.resources.lawyer import (
     CreateLawyerResource,
     GetAllLawyerResource,
@@ -26,13 +25,15 @@ from app.resources.lawyer import (
 )
 
 from app.resources.bookappointment import (
-    BookappointmentResource,  
-    BookappointmentUpdateResource, 
-    DeleteBookappointmentResource,
+    BookAppointmentResource,
     GetAllBookAppointmentResource,
+    LawyerAppointmentsResource,
+    LawfirmAppointmentsResource,
     BookappointmentByUserResource,
-    AttorneyAppointmentsResource,
-    LawfirmAppointmentsResource
+    # BookappointmentResource,  
+    # BookappointmentUpdateResource, 
+    # DeleteBookappointmentResource,
+       
 )
 
 from app.resources.lawfirm import (
@@ -52,33 +53,24 @@ api.add_resource(UserDeleteResource, "/user-delete/<int:user_id>")
 api.add_resource(UserProfileUpdateResource, '/update-profile')
 
 
-
 api.add_resource(CreateLawyerResource, "/create-lawyer")
 api.add_resource(GetAllLawyerResource, "/all-lawyers")
-api.add_resource(UserLawyerResource, "/user-lawyer")
+api.add_resource(UserLawyerResource, "/user-lawyer/<int:user_id>")
 api.add_resource(LawyerUpdateResource, "/update-lawyer/<int:lawyer_id>")
 api.add_resource(LawyerDeleteResource, "/detele-lawyer/<int:lawyer_id>")
 
 api.add_resource(CreateLawfirmResource, "/create-lawfirm")
 api.add_resource(GetAllLawfirmResource, "/all-lawfirms")
-api.add_resource(UserLawfirmResource, "/user-lawfirm")
+api.add_resource(UserLawfirmResource, "/user-lawfirm/<int:user_id>")
 api.add_resource(LawfirmUpdateResource, "/update-lawfirm/<int:lawfirm_id>")
 api.add_resource(LawfirmDeleteResource, "/detele-lawfirm/<int:lawfirm_id>")
 
-# api.add_resource(BookappointmentResource, "/create-appointment")
-# api.add_resource(GetAllBookAppointmentResource, "/all-appointment")
-# api.add_resource(UserBookAppointmentsResource, "/user-appointment")
-# api.add_resource(BookappointmentUpdateResource, "/update-bookappointment/<int:bookappointment_id>")
-# api.add_resource(BookappointmentDeleteResource, "/detele-bookappointment/<int:bookappointment_id>")
 
-api.add_resource(BookappointmentResource, "/create-appointment")
+api.add_resource(BookAppointmentResource, '/bookappointment')
 api.add_resource(GetAllBookAppointmentResource, "/all-appointment")
 api.add_resource(BookappointmentByUserResource, "/user-appointment/<int:user_id>")
-api.add_resource(BookappointmentUpdateResource, "/update-bookappointment/<int:bookappointment_id>")
-api.add_resource(DeleteBookappointmentResource, "/delete-bookappointment/<int:bookappointment_id>")
-api.add_resource(AttorneyAppointmentsResource, "/attorney-appointments/<int:attorney_id>")
-api.add_resource(LawfirmAppointmentsResource, "/lawfirm-appointments/<int:lawfirm_id>")
-
+api.add_resource(LawyerAppointmentsResource, '/lawyers/<int:lawyer_id>/appointments')
+api.add_resource(LawfirmAppointmentsResource, '/lawfirms/<int:lawfirm_id>/appointments')
 
 
 
@@ -92,6 +84,4 @@ def index():
 # api.add_resource(GetAllBookAppointmentResource, "/all-appointment")
 # api.add_resource(UserBookAppointmentsResource, "/user-appointment")
 # api.add_resource(BookappointmentUpdateResource, "/update-bookappointment/<int:bookappointment_id>")
-# api.add_resource(BookappointmentDeleteResource, "/delete-bookappointment/<int:bookappointment_id>")
-# api.add_resource(AttorneyAppointmentsResource, "/attorney-appointments/<int:attorney_id>")
-# api.add_resource(LawfirmAppointmentsResource, "/lawfirm-appointments/<int:lawfirm_id>")
+# api.add_resource(BookappointmentDeleteResource, "/detele-bookappointment/<int:bookappointment_id>")

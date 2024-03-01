@@ -17,82 +17,55 @@ import { URL } from './Constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Color from '../Config/Color';
 
+
+
 // Convert Date To Backend Format
 const converDateToBackendFormat = (dataString) => {
     const [year, month, day] = dataString.split('/');
     return `${year}-${month}-${day}`;
 }
 
-const AppointmentBooking = ({navigation}) => {
+const AppointmentBooking = ({navigation, route}) => {
+    const {lawyerId, lawfirmId} = route.params;
     const [fullName, setFullName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState('');
     const [service, setService] = useState('None');
     const [appointmentDate, setAppointmentDate] = useState('');
     const [description, setDescription] = useState('');
-    const [preferredAttorney, setPreferredAttorney] = useState('');
-    const [preferredLawfirm, setPreferredLawfirm] = useState('');
     const [communicationPreferences, setCommunicationPreferences] = useState('None');
     const [appointmentTime, setAppointmentTime] = useState('');
 
-
-    // const [priority, setPriority] = useState('None');
  
-    const handleAppointment = async () => {
+    const handleSubmit = () => {
+        const appointmentData = {
+          fullName,
+          phoneNumber,
+          email,
+          service,
+          appointmentDate: converDateToBackendFormat(appointmentDate),
+          description,
+          communicationPreferences,
+          appointmentTime,
+          user_id: 1,
+          lawyer_id: lawyerId || null, // Set lawyer_id to provided value or null if not provided
+          lawfirm_id: lawfirmId || null // Set lawfirm_id to provided value or null if not provided
+        };
 
-        try {
-            // Getting User ID from AsynStorage
-            const userId = await AsyncStorage.getItem('UserId');
-            console.log('user', userId);
+        console.log(appointmentData);
+    
+        axios.post(`${URL}/bookappointment`, appointmentData)
+          .then(response => {
+            console.log('Appointment created successfully:', response.data);
+            Alert.alert('Success', 'Appointment created successfully');
+            navigation.navigate('Booked');
+          })
 
-            if (
-                !fullName || 
-                !phoneNumber || 
-                !email || 
-                !service || 
-                !appointmentDate || 
-                !description || 
-                !preferredAttorney || 
-                !preferredLawfirm || 
-                !communicationPreferences|| 
-                !appointmentTime 
-               ) {
-                Alert.alert(
-                    'Missing field', 'You have some missing fields to fill'
-                ), [{ text: 'Okay' }];
-                return;
-            }
-
-            const response = await axios.post(`${URL}/create-appointment`, {
-                fullName: fullName,
-                phoneNumber: phoneNumber,
-                email: email,
-                service: service,
-                appointmentDate: converDateToBackendFormat(appointmentDate),
-                description: description,
-                preferredAttorney: preferredAttorney,
-                preferredLawfirm: preferredLawfirm,
-                communicationPreferences: communicationPreferences,
-                appointmentTime: appointmentTime,
-                user_id: userId
-            }, {
-                headers: { 'Content-Type': 'application/json' }
-            });
-
-            console.log('Success:', response.data);
-
-            // Alert Message
-            Alert.alert(
-                'Created', 'Appointment Created Successfully',
-                [{ text: 'Okay' }]
-            );
-
-            navigation.navigate('Booked')
-
-        } catch (error) {
-            console.log('Error:', error);
-        }
-    };
+          .catch(error => {
+            console.error('Error creating appointment:', error);
+            Alert.alert('Error', 'Failed to create appointment');
+          });
+      };
 
     return (
         // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -130,12 +103,18 @@ const AppointmentBooking = ({navigation}) => {
                          <RadioButton.Group onValueChange={(value) => setService(value)} value={service}>
                             <View style={styles.radioGroup}>
                                 <View style={styles.radioItem}>
-                                    <RadioButton value="Legal Assistances" />
+                                    <RadioButton value="Legal Assistances" 
+                                    uncheckedColor={Color.grey} 
+                                    color={Color.primary} 
+                                    />
                                     <Text style={styles.radioLabel}>Legal Assistances</Text>
                                 </View>
 
                                 <View style={styles.radioItem}>
-                                    <RadioButton value="Business Consultantcy" />
+                                    <RadioButton value="Business Consultantcy" 
+                                       uncheckedColor={Color.grey} 
+                                       color={Color.primary} 
+                                    />
                                     <Text style={styles.radioLabel}>Business Consultantcy</Text>
                                 </View>
                             </View>
@@ -143,7 +122,7 @@ const AppointmentBooking = ({navigation}) => {
 
                     <Text style={styles.DateStyle}>Choose Appointment Date</Text>
                         <DatePicker
-                            mode="calendar"
+                            mode="calendar"   
                             onSelectedChange={date => setAppointmentDate(date)}
                         />
 
@@ -156,45 +135,43 @@ const AppointmentBooking = ({navigation}) => {
                             onChangeText={(text) => setDescription(text)}
 
                         />
-  
-                    <TextInput
-                            style={styles.input}
-                            placeholder="Preferred Attorney"
-                            value={preferredAttorney}
-                            onChangeText={(text) => setPreferredAttorney(text)}
-                        />
-
-                    <TextInput
-                            style={styles.input}
-                            placeholder="Law Firms"
-                            value={preferredLawfirm}
-                            onChangeText={(text) => setPreferredLawfirm(text)}
-                        />
                         <Text style={styles.DateStyle}>communition Preferrences</Text>
                          <RadioButton.Group onValueChange={(value) => setCommunicationPreferences(value)} value={communicationPreferences}>
                             <View style={styles.radioGroup}>
                                 <View style={styles.radioItem}>
-                                    <RadioButton value="SMS" />
+                                    <RadioButton value="SMS" 
+                                     uncheckedColor={Color.grey} 
+                                     color={Color.primary} 
+                                    />
                                     <Text style={styles.radioLabel}>SMS</Text>
                                 </View>
 
                                 <View style={styles.radioItem}>
-                                    <RadioButton value="Email" />
+                                    <RadioButton value="Email" 
+                                     uncheckedColor={Color.grey}
+                                     color={Color.primary}
+                                    />
                                     <Text style={styles.radioLabel}>Email</Text>
                                 </View>
 
                                 <View style={styles.radioItem}>
-                                    <RadioButton value="WhatsApp" />
+                                    <RadioButton value="WhatsApp"
+                                     uncheckedColor={Color.grey} 
+                                     color={Color.primary} 
+                                    />
                                     <Text style={styles.radioLabel}>WhatsApp</Text>
                                 </View>
 
                                 <View style={styles.radioItem}>
-                                    <RadioButton value="Others" />
+                                    <RadioButton value="Others"
+                                     uncheckedColor={Color.grey} 
+                                     color={Color.primary} 
+                                    />
                                     <Text style={styles.radioLabel}>Others</Text>
                                 </View>
                             </View>
                         </RadioButton.Group>
-                        <Text style={styles.DateStyle}>Appointment Time</Text>
+                        <Text style={styles.time}>Appointment Time</Text>
                         <TextInput
                             style={styles.input}
                             placeholder="07:00pm"
@@ -204,7 +181,7 @@ const AppointmentBooking = ({navigation}) => {
                        
                     
                         <TouchableOpacity style={styles.addButton}
-                            onPress={() => handleAppointment()}
+                            onPress={() => handleSubmit()}
                         >
                             <Text style={styles.buttonText}>Book Now</Text>
                         </TouchableOpacity>
@@ -252,7 +229,7 @@ const styles = StyleSheet.create({
     },
     radioGroup: {
         flexDirection: 'column',
-        alignItems: 'center',
+        // alignItems: 'center',
         marginBottom: 12,
         marginTop: 20,
     },
@@ -287,6 +264,12 @@ const styles = StyleSheet.create({
         borderColor: '#3498db', // Set the border color to blue
         padding: 10, // Add some padding for better visual appearance
     },
+    time: {
+        backgroundColor: "#eee",
+        borderRadius: 5,
+        padding: 10,
+        marginBottom: 20,
+    }
 });
 
-export default AppointmentBooking
+export default AppointmentBooking;

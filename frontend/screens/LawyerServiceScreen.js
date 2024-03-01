@@ -16,7 +16,7 @@ function LawyerServiceScreen({navigation}) {
         <View style= {styles.backgroundOpacity}>
          <View style={styles.navContainer}>
          <AntDesign name="left" size={24} color={Color.white} onPress={() => navigation.navigate('Dashboard')}/>
-         <Text style={styles.pointHome}>Our Services</Text>
+         <Text style={styles.pointHome} onPress={() => navigation.navigate('Dashboard')}>Our Services</Text>
          </View>
 
         <View style={styles.companyServicesContianer}>
@@ -58,11 +58,6 @@ function LawyerServiceScreen({navigation}) {
             <Text style={styles.serviceInfoHeading1}>Lawyers and Lawfirms</Text>
             </View>
             <Text style={styles.serviceInPara1}> Win Case Liberia is a legal detigital online Community for all legal professionals be it Stand alone Lawyers and Lawfirms </Text>
-
-            {/* <View style={styles.directionBox}>
-           <Text onPress={() => navigation.navigate('Lawyers/Lawfirms')}>See Legal Professionals/Consultants</Text>
-           <AntDesign name="arrowright" size={24} color={Color.primary} onPress={() => navigation.navigate('Lawyers/Lawfirms')}/>
-           </View> */}
             </ScrollView>
       
       </View>
@@ -81,12 +76,11 @@ function LawyerServiceScreen({navigation}) {
         
      },
      navContainer: {
-     // backgroundColor: '#fff',
      width: '100%',
      height: 50,
      alignItems: 'center',
      flexDirection: 'row',
-     margin: 3,
+     marginTop: 30,
      },
 
      pointHome: {
@@ -189,7 +183,7 @@ function LawyerServiceScreen({navigation}) {
    
               serviceInfoContainer1 :{
                width: '100%',
-              paddingHorizontal: 20,
+              paddingHorizontal: 10,
                height: 280,
               },
    

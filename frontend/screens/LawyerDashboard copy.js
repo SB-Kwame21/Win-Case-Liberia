@@ -12,17 +12,18 @@ import {
     StatusBar} from 'react-native';
 
 import { 
-    Entypo, 
     Ionicons, 
     MaterialIcons,  
-    AntDesign, 
-    Foundation, 
-    SimpleLineIcons   } from '@expo/vector-icons';
+    MaterialCommunityIcons   } from '@expo/vector-icons';
 
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import Color from '../Config/Color';
+import { useNavigation } from '@react-navigation/native';
 
-function DashboardScreen({navigation}) {
+function LawyerDashboard({route}) {
+   
+
+    const navigation = useNavigation();
     return (
         <ImageBackground
        style={styles.background}
@@ -35,8 +36,11 @@ function DashboardScreen({navigation}) {
             <Text style={styles.textLogo}>WC</Text>
             <Text style={styles.lib}>Lib</Text>
             </View>
-         <View style={styles.logoutBtn}> 
-         <SimpleLineIcons name="logout" size={20} color={Color.primary}  onPress={() => navigation.navigate('SignIn')} /> 
+         {/* <View style={styles.logoutBtn}> 
+         <SimpleLineIcons name="logout" size={20} color={Color.primary}  onPress={() => navigation.navigate('LawyerSignIn')} /> 
+         </View> */}
+         <View style={styles.appointmentBtn}> 
+         <MaterialCommunityIcons name="checkbox-multiple-marked" size={20} marginTop={3} color={Color.primary} onPress={() => navigation.navigate('Appointments')}/>
          </View>
             </View>
             <View style={styles.container}>
@@ -56,7 +60,6 @@ function DashboardScreen({navigation}) {
             </View> 
       </View>
       <View style={[styles.child, ]}>
-        {/* <Text style={styles.text}>2</Text> */}
         <View style={styles.infoContainer}>
               <Text style={styles.infoText}>We've </Text>
         
@@ -68,7 +71,6 @@ function DashboardScreen({navigation}) {
             </View> 
       </View>
       <View style={[styles.child, ]}>
-        {/* <Text style={styles.text}>3</Text> */}
         <View style={styles.infoContainer}>
               <Text style={styles.infoText}>We've</Text>
               <Text style={styles.infotextBold}>Reliable Lawfirms</Text>
@@ -76,13 +78,10 @@ function DashboardScreen({navigation}) {
                having options to chose the best law Firm of their choice.</Text>
             </View> 
       </View>
-      {/* <View style={[styles.child, { backgroundColor: 'teal' }]}>
-        <Text style={styles.text}>4</Text>
-      </View> */}
     </SwiperFlatList>
   </View>
             
-            <View style={styles.appointmenContainer}>   
+            <View style={styles.mainMenuContainer}>   
             <View style={styles.menuContainer}>
             <ScrollView  horizontal={true}  showsHorizontalScrollIndicator={false}>
             <View style={styles.iconBox}>
@@ -100,24 +99,23 @@ function DashboardScreen({navigation}) {
             
             <View style={styles.iconBox}>
             <View style={styles.iconBoxChild}>
-            <AntDesign name="team" size={30} color={Color.primary} onPress={() => navigation.navigate('Lawyers/Lawfirms')} />
-            <Text style={styles.iconDescription}>Find Lawyer</Text>
+            <MaterialCommunityIcons name="google-circles-communities" size={30} color={Color.primary} onPress={() => navigation.navigate('Community')} />
+            <Text style={styles.iconDescription}>All-Lawyers</Text>
             </View>
             </View>     
 
             <View style={styles.iconBox}>
             <View style={styles.iconBoxChild} >
             <MaterialIcons name="account-circle" size={30} color={Color.primary} onPress={() => navigation.navigate('Profile')} />
-            {/* <Foundation name="torso-business" size={30} color={Color.primary} onPress={() => navigation.navigate('About Us')} /> */}
             <Text style={styles.iconDescription} >Profile</Text>
             </View>
             </View>
 
-  
             </ScrollView>
             </View>
-           <TouchableOpacity style={styles.opacityBody} onPress={() => navigation.navigate('Appointment Booking')} >
-            <Text style={styles.appointmenText}  onPress={() => navigation.navigate('Appointment Booking')}>Book an appointments</Text>
+            {/* { lawyerId: lawyer.id } */}
+           <TouchableOpacity style={styles.opacityBody} onPress={() => navigation.navigate('Appointments')} >
+            <Text style={styles.appointmenText}  onPress={() => navigation.navigate('Appointments')}>Appointments</Text> 
            </TouchableOpacity>
            </View>
            </View>
@@ -174,8 +172,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     // alignItems: 'center',
     flexDirection: 'row',
-    marginTop: 25,
+    marginTop: 50,
     },
+    appointmentBtn: {
+        width: 35,
+        height: 30, 
+           },
     logoContin: {
         width: 100,
         height: 40,
@@ -212,21 +214,22 @@ logoutBtn: {
     },
 
 sliderView: {
-width: '75%',
+width: '100%',
 height: 300,
 backgroundColor: Color.white,
 marginTop: 130, 
     },
 
-    appointmenContainer: {
+    mainMenuContainer: {
         flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',
+        paddingHorizontal: 10,
     },
 
 
     opacityBody: {
-        width: '90%',
+        width: '100%',
         height: 50,
         backgroundColor: Color.primary,
         marginBottom: 10,
@@ -235,11 +238,14 @@ marginTop: 130,
     },
 
     menuContainer: {
-        justifyContent: 'space-evenly',
+        // justifyContent: 'center',
         flexDirection: 'row',
         width: '100%',
         height: 85,
-
+        // alignItems: 'center',
+        justifyContent: 'center',
+        alignContent: 'center',
+        
     },
 
     iconBox: {
@@ -276,4 +282,4 @@ marginTop: 130,
 
 });
 
-export default  DashboardScreen
+export default  LawyerDashboard;

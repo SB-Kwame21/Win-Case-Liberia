@@ -1,105 +1,78 @@
-import React, { 
-              useState, 
-              useEffect } from 'react';
-
-import {View, 
-       Text, 
-       ImageBackground, 
-       SafeAreaView, 
-       StyleSheet, 
-      TouchableOpacity, 
-      ScrollView, 
-      Dimensions, 
-      StatusBar,  
-      FlatList, 
-      Image, 
-      TextInput } from 'react-native';
-  
-import { 
-       Entypo, 
-       Ionicons, 
-       MaterialIcons,  
-       AntDesign, 
-       Foundation, 
-      SimpleLineIcons   } from '@expo/vector-icons';
-  
-import { URL } from './Constants';
+import React, { useState, useEffect } from 'react';
+import { View, Text, ImageBackground, StyleSheet, TextInput, FlatList, Image } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 import axios from 'axios';
-  
+import { URL } from './Constants';
 import Color from '../Config/Color';
-  
 import { useNavigation } from '@react-navigation/native';
-  
-function  LawfirmCommunity() {
-    const navigation = useNavigation();
-    const [Lawfirms, setLawfirms] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [filteredLawfirms, setFilteredLawfirms] = useState([]);
-  
-    useEffect(() => {
-      axios.get(`${URL}/all-lawfirms`)
-        .then((response) => {
-          setLawfirms(response.data);
-        })
-        .catch((error) => {
-          console.error('Error fetching Law firms:', error);
-        });
-    }, []);
-  
-  
-    const filterLawfirms = (query) => {
-      setSearchQuery(query);
-      const filtered = Lawfirms.filter(lawfirm =>
-        lawfirm.lawfirmName.toLowerCase().includes(query.toLowerCase())
-      );
-      setFilteredLawfirms(filtered);
-    };
-  
-    return (
-      <ImageBackground
+
+function LawfirmCommunity() {
+  const navigation = useNavigation();
+  const [Lawfirms, setLawfirms] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredLawfirms, setFilteredLawfirms] = useState([]);
+
+  useEffect(() => {
+    axios.get(`${URL}/all-lawfirms`)
+      .then((response) => {
+        setLawfirms(response.data);
+        setFilteredLawfirms(response.data); 
+      })
+      .catch((error) => {
+        console.error('Error fetching Law firms:', error);
+      });
+  }, []);
+
+  const filterLawfirms = (query) => {
+    setSearchQuery(query);
+    const filtered = Lawfirms.filter(lawfirm =>
+      lawfirm.lawfirmName.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredLawfirms(filtered);
+  };
+
+  return (
+    <ImageBackground
       style={styles.background}
       source={require("../assets/back.jpg")}
       resizeMode="cover"
-      >
-          <View style= {styles.backgroundOpacity}>
-           <View style={styles.navContainer}>
-           <AntDesign name="left" size={24} color={Color.white} onPress={() => navigation.navigate('Dashboard')}/>
-           <Text style={styles.pointHome}>Lawfirms Community</Text>
-           </View>
-           <View style={styles.searchContainer}>
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Search Lawfirms"
-              value={searchQuery}
-              onChangeText={filterLawfirms}
+    >
+      <View style={styles.backgroundOpacity}>
+        <View style={styles.navContainer}>
+          <AntDesign name="left" size={24} color={Color.white} onPress={() => navigation.navigate('Dashboard')} />
+          <Text style={styles.pointHome}>Lawfirms Community</Text>
+        </View>
+        <View style={styles.searchContainer}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search Lawfirms"
+            value={searchQuery}
+            onChangeText={filterLawfirms}
+          />
+        </View>
+        <View style={styles.companyOurteamContianer}>
+          <View style={styles.contianer}>
+            <FlatList
+              data={filteredLawfirms}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => (
+                <View style={styles.memberContainer}>
+                  <View style={styles.memberImagebBox}>
+                    <Image source={{ uri: item.logoImage }} style={styles.memberImage} />
+                  </View>
+                  <View style={styles.memberInfoBox}>
+                    <Text style={styles.memberName}>{item.lawfirmName}</Text>
+                    <Text style={styles.memberLawType}>{item.practiceArea}</Text>
+                  </View>
+                </View>
+              )}
             />
           </View>
-          <View style={styles.companyOurteamContianer}>
-          <View style={styles.contianer}>
-          <FlatList
-            data={filteredLawfirms}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.memberContainer}>
-              <View style={styles.memberImagebBox}>
-              <Image source={{ uri: item.logoImage }} style={styles.memberImage} />
-              </View>
-              <View style={styles.memberInfoBox}>
-              <Text style={styles.memberName}>{item.lawfirmName}</Text>
-              <Text style={styles.memberLawType}>{item.practiceArea}</Text>
-              </View>
-            </View>
-          )}
-        />
-          </View>
-        
         </View>
-          </View>
-       <StatusBar backgroundColor={Color.primary} barStyle="light-content">
-       </StatusBar>
-      </ImageBackground>
-     );
-   }
+      </View>
+    </ImageBackground>
+  );
+}
    const styles = StyleSheet.create({
       background: {
        flex: 1,
@@ -108,12 +81,11 @@ function  LawfirmCommunity() {
          
       },
       navContainer: {
-      // backgroundColor: '#fff',
       width: '100%',
       height: 50,
       alignItems: 'center',
       flexDirection: 'row',
-      margin: 3,
+      marginTop: 30,
       },
   
       pointHome: {

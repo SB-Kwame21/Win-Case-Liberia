@@ -48,7 +48,16 @@ function LawfirmSignIn({ navigation }) {
             AsyncStorage.setItem('userName', username);
 
             // Navigate to the authenticated
-            navigation.navigate('Dashboard')
+            // navigation.navigate('Dashboard')
+
+            navigation.reset({
+                index: 0,
+                routes: [{ name: 'Dashboard' }],
+            });
+
+           
+            
+
 
         }).catch((err) => {
             // Handle login failure
@@ -104,7 +113,8 @@ function LawfirmSignIn({ navigation }) {
                 </TouchableOpacity>
   
                 <TouchableOpacity>
-                    <Text style={styles.optionText} onPress={() => navigation.navigate('UpdateLawfirmPassword')} >Forget Password?</Text>
+                    <Text style={styles.optionText} >Forget Password?</Text>
+                    {/* onPress={() => navigation.navigate('UpdateLawfirmPassword')} */}
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -128,7 +138,7 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     flexDirection: 'row',
-    margin: 3,
+    marginTop: 30,
     },
     
     

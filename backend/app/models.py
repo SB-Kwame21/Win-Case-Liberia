@@ -132,6 +132,9 @@ class BookAppointments(db.Model):
     lawfirm_id = db.Column(db.Integer, db.ForeignKey("lawfirms.id"))
     timestamp = db.Column(db.DateTime, default=datetime.now())
 
+    lawyer = db.relationship("Lawyers", backref="appointments", foreign_keys=[lawyer_id])
+    lawfirm = db.relationship("Lawfirms", backref="appointments", foreign_keys=[lawfirm_id])
+
     def save_to_db(self) -> None:
         db.session.add(self)
         db.session.commit()

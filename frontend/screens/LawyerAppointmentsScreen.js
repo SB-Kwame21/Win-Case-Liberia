@@ -6,62 +6,55 @@ import Color from '../Config/Color';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
-const LawfirmAppointmentsScreen = () => {
+const LawyerAppointmentsScreen = ({ route }) => {
   const navigation = useNavigation();
 
   const [appointments, setAppointments] = useState([]);
-  const [lawfirmId, setLawfirmId] = useState(null);
+  const [lawyerId, setLawyerId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchLawfirmData();
+    fetchLawyerData();
   }, []);
 
   useEffect(() => {
-    // Call fetchAppointments whenever lawfirmId changes
-    if (lawfirmId !== null) {
+    // Call fetchAppointments whenever lawyerId changes
+    if (lawyerId !== null) {
       fetchAppointments();
     }
-  }, [lawfirmId]);
+  }, [lawyerId]);
 
-  const fetchLawfirmData = async () => {
+  const fetchLawyerData = async () => {
     try {
       const id = await AsyncStorage.getItem('UserId');
-      const response = await axios.get(`${URL}/user-lawfirm/${id}`);
-      setLawfirmId(response.data.Lawfirm.id);
+      const response = await axios.get(`${URL}/user-lawyer/${id}`);
+      setLawyerId(response.data.Lawyer.id);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
       console.log(error.response);
       if (error.response && error.response.status === 401) {
-        Alert.alert('Error', 'Failed to get lawfirm data. Please try again later.');
+        Alert.alert('Error', 'Failed to get lawyer data. Please try again later.');
       }
     }
   };
 
   const fetchAppointments = async () => {
     try {
-      const response = await axios.get(`${URL}/lawfirms/${lawfirmId}/appointments`);
+      const response = await axios.get(`${URL}/lawyers/${lawyerId}/appointments`);
       setAppointments(response.data);
     } catch (error) {
       console.error('Error fetching appointments:', error);
     }
   };
 
-  const renderAppointmentItem = ({ item }) => {
-    console.log(item); // Check item structure
-    if (!item) {
-      return <ActivityIndicator size="small" color="#0000ff" />;
-    }
-
-    return (
-      <View style={styles.appointmentItem}>
-        <Text style={styles.name} onPress={() => navigation.navigate('Appointment Details', { appointment: item })}>{item.fullName}</Text>
-        <Text style={styles.service} onPress={() => navigation.navigate('Appointment Details', { appointment: item })}>{item.service}</Text>
-        <Text style={styles.date} onPress={() => navigation.navigate('Appointment Details', { appointment: item })}>{item.appointmentDate}</Text>
-      </View>
-    );
-  };
+  const renderAppointmentItem = ({ item }) => (
+    <View style={styles.appointmentItem}>
+      <Text style={styles.name} onPress={() => navigation.navigate('Appointment Details', { appointment: item })}>{item.fullName}</Text>
+      <Text style={styles.service} onPress={() => navigation.navigate('Appointment Details', { appointment: item })}>{item.service}</Text>
+      <Text style={styles.date} onPress={() => navigation.navigate('Appointment Details', { appointment: item })}>{item.appointmentDate}</Text>
+    </View>
+  );
 
   if (isLoading) {
     return (
@@ -86,33 +79,31 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Color.white,
-    padding: 20, 
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    // backgroundColor: Color.white,
     padding: 20,
   },
   appointmentItem: {
-        padding: 10,
-    // borderBottomWidth: 1,
-    // borderBottomColor: '#ccc',
-    // borderTopWidth: 1,
-    // borderTopColor: '#ccc',
+    padding: 10,
     paddingHorizontal: 10,
     backgroundColor: "#eee",
     marginBottom: 10,
     width: '100%',
     paddingHorizontal: 20,
     height: 80,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
-  name: {
-        fontWeight: 'bold', 
+  name:{
+    fontWeight: 'bold', 
     fontSize: 15,
     color: Color.grey,
   },
-
+  service: {
+    fontSize: 14,
+    color: Color.black,
+  },
+  date: {
+    fontSize: 14,
+    color: Color.black,
+  }
 });
 
-export default LawfirmAppointmentsScreen;
-
+export default LawyerAppointmentsScreen;

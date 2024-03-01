@@ -44,13 +44,10 @@ const EditLawyerProfile = ({ navigation }) => {
     
     const handleUpdateProfile = async () => {
         try {
-            // Update profile logic here (e.g., make API call)
-            // For demonstration, this example uses Axios
             axios.put(`${URL}/update-profile`, {
                 userName: userData.userName,
                 email: userData.email,
                 phone: userData.phone,
-                // Other fields to update if necessary
             });
 
             // Handle successful update
@@ -67,7 +64,7 @@ const EditLawyerProfile = ({ navigation }) => {
     return (
         <View style={styles.container}>
                 <View style={styles.navContainer}>
-         <AntDesign name="left" size={24} color={Color.dark} onPress={() => navigation.navigate('Home')}/>
+         <AntDesign name="left" size={24} color={Color.dark} onPress={() => navigation.navigate('Profile')}/>
          <Text style={styles.pointHome}>Back</Text>
          </View>
             <TouchableOpacity style={styles.imageContainer} onPress={pickImage}>
@@ -111,12 +108,12 @@ const styles = StyleSheet.create({
         // justifyContent: 'center',
     },
     navContainer: {
-        // backgroundColor: '#fff',
         width: '100%',
         height: 50,
         alignItems: 'center',
         flexDirection: 'row',
         marginBottom: 125,
+        marginTop: 30,
         },
    
         pointHome: {

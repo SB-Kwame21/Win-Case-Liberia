@@ -45,7 +45,6 @@ const LawfirmSignUp = function ({ navigation }) {
             {
                 username: data.userName,
                 email: data.email,
-                address: data.address,
                 phone: data.phone,
                 password: data.password,
             }, {
@@ -54,12 +53,10 @@ const LawfirmSignUp = function ({ navigation }) {
         ).then((response) => {
             console.log('Response!', response.data)
 
-            const jsonValue = JSON.stringify(response.data)
-            console.log('value', jsonValue)
-            AsyncStorage.setItem('userData', jsonValue)
-
-
-
+            const { id } = response.data;
+            console.log(id);
+            AsyncStorage.setItem('signUpUserId', String(id));
+  
             // Alert Message
             Alert.alert(
                 'Account Created Succefully', 'read carefully, Lets Negociate!!',
@@ -162,7 +159,7 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     flexDirection: 'row',
-    margin: 3,
+    marginTop: 30,
     },
     
     
@@ -207,27 +204,17 @@ const styles = StyleSheet.create({
   
    input: {
       height: 40,
-      width: '80%',
+      width: '100%',
       borderColor: Color.primary, 
       borderWidth: 1,
       borderRadius: 5,
       marginTop: 15,
-      paddingHorizontal: 10,
+      paddingHorizontal: 20,
       color: Color.white,
    
    },
    
     
-    // inputPicker: {
-    //    height: 40,
-    //    width: '100%',
-    //    borderColor: Color.primary,
-    //    borderWidth: 1,
-    //    borderRadius: 5,
-    //    marginTop: 15,
-    //    paddingHorizontal: 10,
-    //    color: Color.white,
-    // },
     
     optionText: {
        color: Color.white,
@@ -237,7 +224,7 @@ const styles = StyleSheet.create({
        backgroundColor: Color.primary,
        padding: 13,  
        marginTop: 30,
-       width: '80%',
+       width: '100%',
        alignSelf: 'center',
        marginBottom: 20,
        borderRadius: 5,

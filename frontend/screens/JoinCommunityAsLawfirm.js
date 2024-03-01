@@ -28,7 +28,6 @@ function JoinCommunityAsLawfirm({navigation}) {
     const [businessAddress, setBusinessAddress] = useState('');
     const [city, setCity] = useState('');
     const [country, setCountry] = useState('');
-    const [zipCode, setZipCode] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
     const [website, setWebsite] = useState('');
@@ -70,8 +69,8 @@ function JoinCommunityAsLawfirm({navigation}) {
 
         try {
             // Getting User ID from AsynStorage
-            const userId = await AsyncStorage.getItem('UserId');
-            console.log('user', userId);
+            const id = await AsyncStorage.getItem('signUpUserId');
+            console.log('user', id);
 
             if (
                 !lawfirmName ||
@@ -105,7 +104,7 @@ function JoinCommunityAsLawfirm({navigation}) {
                 language: language,
                 description: description,
                 logoImage: logoImage,
-                user_id: userId
+                user_id: id
             }, {
                 headers: { 'Content-Type': 'application/json' }
             });

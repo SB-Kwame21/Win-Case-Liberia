@@ -3,7 +3,6 @@ import {
       View, 
       Text, 
       ImageBackground, 
-      SafeAreaView, 
       StyleSheet, 
       TouchableOpacity, 
       ScrollView, 
@@ -13,13 +12,7 @@ import {
       Image, 
       TextInput } from 'react-native';
 
-import { 
-      Entypo, 
-      Ionicons, 
-      MaterialIcons,  
-      AntDesign, 
-      Foundation, 
-      SimpleLineIcons   } from '@expo/vector-icons';
+import { AntDesign,} from '@expo/vector-icons';
 
 import { URL } from './Constants';
 import axios from 'axios';
@@ -79,10 +72,11 @@ function LawyerScreen() {
           <TouchableOpacity style={styles.lawfirmBtn} onPress={() => navigation.navigate('Lawfirms')}><Text Text style={styles.btnText2}>Lawfirms</Text></TouchableOpacity>
         </View>
         <View style={styles.companyOurteamContianer}>
+    
         <View style={styles.contianer}>
         <FlatList
-          data={filteredLawyers}
-        // data={Lawfirms}
+        data={filteredLawyers}
+        // data={Lawyers}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View style={styles.memberContainer}>
@@ -93,7 +87,6 @@ function LawyerScreen() {
             <Text style={styles.memberName}>{item.fullname}</Text>
             <Text style={styles.memberLawType} onPress={() => navigation.navigate('Lawyer Details', { lawyer : item })}>{item.practiceArea}</Text>
             <Text style={styles.memberPrice} onPress={() => navigation.navigate('Lawyer Details', { lawyer : item })}>{item.price}</Text>
-            {/* Add more details here if needed */}
             </View>
             <View style={styles.iconBox}>
             <AntDesign name="right" size={20} color={Color.primary} onPress={() => navigation.navigate('Lawyer Details', { lawyer : item })}/>
@@ -118,12 +111,11 @@ function LawyerScreen() {
        
     },
     navContainer: {
-    // backgroundColor: '#fff',
     width: '100%',
     height: 50,
     alignItems: 'center',
     flexDirection: 'row',
-    margin: 3,
+    marginTop: 30,
     },
 
     pointHome: {

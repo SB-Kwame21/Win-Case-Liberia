@@ -11,7 +11,7 @@ from app.models import Lawyers
 from app.schemas.lawyer import LawyerSchema
 
 lawyer_schema = LawyerSchema()
-lawyers_schema = LawyerSchema()
+lawyers_schema = LawyerSchema(many=True)
 
 class CreateLawyerResource(Resource):
     @classmethod
@@ -23,34 +23,35 @@ class CreateLawyerResource(Resource):
         return {"message" : " Created successful."}, 201
    
 
-# class GetAllLawyerResource(Resource):
-#     @classmethod
-#     def get(cls):
-#         lawyers = Lawyers.query.all()
-#         results = lawyers_schema.dump(lawyers)
-#         return {"lawyers": results}
+
     
 class GetAllLawyerResource(Resource):
     @classmethod
     def get(cls):
         lawyer = Lawyers.query.all()
-        return lawyer_schema.dump(lawyer, many=True)
+        return lawyers_schema.dump(lawyer), 200
     
 
+# class UserLawyerResource(Resource):
+#     @classmethod
+#     def get(cls, user_id:int):
+
+#         user_lawyers = Lawyers.query.filter_by(user_id=user_id).all()
+#         serialized_lawyers =  lawyer_schema.dump(user_lawyers)
+
+#         return {"Lawyer": serialized_lawyers}, 200
+    
 
 class UserLawyerResource(Resource):
     @classmethod
-    @jwt_required() 
-    def get(cls):
+    def get(cls, user_id: int):
+        lawyer = Lawyers.query.filter_by(user_id=user_id).first()
 
-        user_id = get_jwt_identity()
-
-        user_lawyers = Lawyers.query.filter_by(user_id=user_id).all()
-        serialized_lawyers =  lawyers_schema.dump(user_lawyers)
-
-        return {"Lawyer": serialized_lawyers}, 200
-    
-
+        if lawyer:
+            serialized_lawyer = lawyer_schema.dump(lawyer)
+            return {"Lawyer": serialized_lawyer}, 200
+        else:
+            return {"message": "Lawyer not found for the specified user ID"}, 404
 
 
 class LawyerUpdateResource(Resource):

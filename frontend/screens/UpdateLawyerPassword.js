@@ -115,12 +115,6 @@ buttonText: {
     textAlign: 'center',
 },
 
-// button: {
-//     borderRadius: 10, 
-//     borderWidth: 2, 
-//     borderColor: Color.primary, 
-//     padding: 10, 
-// },
 })
 
 

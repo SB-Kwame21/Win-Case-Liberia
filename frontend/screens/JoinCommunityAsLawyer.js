@@ -64,8 +64,8 @@ const JoinCommunityAsLawyer = ({ navigation }) => {
 
         try {
             // Getting User ID from AsynStorage
-            const userId = await AsyncStorage.getItem('UserId');
-            console.log('user', userId);
+            const id = await AsyncStorage.getItem('signUpUserId');
+            console.log('user', id);
 
             if (
                 !fullName ||
@@ -107,7 +107,7 @@ const JoinCommunityAsLawyer = ({ navigation }) => {
                 language: language,
                 price: price,
                 image: image,
-                user_id: userId
+                user_id: id
             }, {
                 headers: { 'Content-Type': 'application/json' }
             });

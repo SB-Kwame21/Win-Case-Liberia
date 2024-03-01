@@ -12,20 +12,20 @@ function WelcomeScreen({navigation}) {
   >
     <View style={styles.backgroundOpacity}>
     <View style={styles.Container}>
-      <Text style={styles.heading}>Welcome To Win Case Liberia</Text>
+      <Text style={styles.heading}>Win Case Liberia</Text>
     
       <View style={styles.roleContainer}>
-      <FontAwesome6 name="hand-point-down" size={35} color={Color.white}/>
+      {/* <FontAwesome6 name="hand-point-down" size={35} color={Color.white}/> */}
       <View style={styles.roleBox}>
        
         <TouchableOpacity style={styles.lawyerBtn} onPress={() => navigation.navigate('LawyerMainDrawer')}>
-            <Text style={{color:Color.white}} >Lawyers</Text>
+            <Text style={styles.btnText} >Lawyers</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.clientBtn} onPress={() => navigation.navigate('MainDrawer')}>
-            <Text>Clients</Text>
+        <TouchableOpacity style={styles.clientBtn} onPress={() => navigation.navigate('ClientMainDrawer')}>
+            <Text style={{textAlign: 'center', fontWeight: 'bold',}}>Clients</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.lawfirmBtn}  onPress={() => navigation.navigate('LawfirmMainDrawer')}>
-            <Text style={{color:Color.white}}>Lawfirms</Text>
+            <Text style={styles.btnText}>Lawfirms</Text>
         </TouchableOpacity>
       </View>
       {/* <FontAwesome6 name="hand-point-up" size={40} color={Color.white} marginTop={30}/> */}
@@ -62,10 +62,16 @@ const styles = StyleSheet.create({
     heading: {
         fontWeight: 'bold',
         color: Color.white,
-        fontSize: 35,
+        fontSize: 45,
         textAlign: 'center',
-        // paddingTop: 20,
+        paddingTop: 50,
+        paddingBottom: 40,
 
+    },
+    btnText:{
+    textAlign: 'center',
+    color: Color.white,
+    fontWeight: 'bold',
     },
     subText: {
         color: Color.white,
@@ -76,44 +82,42 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 200,
         alignItems: 'center',
-        paddingTop: 100,
        
     },
     roleBox: {
         width: '100%',
         flexDirection: 'column',
-        height: 160,
+        height: '100%',
         alignItems: 'center',
         justifyContent: 'space-evenly',
-        // paddingTop: 40,
-        marginTop: 40,
 
     },
     lawyerBtn:{
     backgroundColor: Color.primary,
     padding: 10,
     borderRadius: 4,
-    width: 160,
-    height: 40,
+    width: "100%",
+    height: 50,
     },
     clientBtn:{
         backgroundColor: Color.white,
         padding: 10,
         borderRadius: 4,
-        width: 160,
-        height: 40,
+        width: "100%",
+        height: 50,
     },
 
     lawfirmBtn:{
         backgroundColor: Color.primary,
         padding: 10,
         borderRadius: 4,
-        width: 160,
-        height: 40,
+        width: "100%",
+        height: 50,
+        alignItems: 'center',
     },
     subHeading: {
         color: Color.white,
-        marginTop: 20,
+        marginTop: 10,
     }
 
 

@@ -4,16 +4,21 @@ import {
       Text, 
       ImageBackground, 
       StyleSheet, 
-      TouchableOpacity,  
+      TouchableOpacity, 
+      ScrollView, 
+      Dimensions, 
       StatusBar,  
       FlatList, 
       Image, 
       TextInput } from 'react-native';
 
 import { AntDesign,} from '@expo/vector-icons';
+
 import { URL } from './Constants';
 import axios from 'axios';
+
 import Color from '../Config/Color';
+
 import { useNavigation } from '@react-navigation/native';
 
 function LawfirmScreen() {
@@ -29,14 +34,13 @@ function LawfirmScreen() {
         setFilteredLawfirms(response.data); // Initialize filteredLawfirms with fetched data
       })
       .catch((error) => {
-        console.error('Error fetching Law firms:', error);
+        console.error('Error fetching Lawfirms:', error);
       });
   }, []);
 
   const filterLawfirms = (query) => {
     setSearchQuery(query);
     const filtered = Lawfirms.filter(lawfirm =>
-      // lawfirm.lawfirmName.toLowerCase().includes(query.toLowerCase())
       lawfirm.lawfirmName && lawfirm.lawfirmName.toLowerCase().includes(query.toLowerCase())
     );
     setFilteredLawfirms(filtered);
@@ -68,10 +72,11 @@ function LawfirmScreen() {
           <TouchableOpacity style={styles.lawfirmBtn} onPress={() => navigation.navigate('Lawfirms')}><Text Text style={styles.btnText2}>Lawfirms</Text></TouchableOpacity>
         </View>
         <View style={styles.companyOurteamContianer}>
+    
         <View style={styles.contianer}>
         <FlatList
-          data={filteredLawfirms}
-        // data={Lawfirms}
+        data={filteredLawfirms}
+        // data={Lawyers}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View style={styles.memberContainer}>
@@ -79,8 +84,9 @@ function LawfirmScreen() {
             <Image source={{ uri: item.logoImage }} style={styles.memberImage} />
             </View>
             <View style={styles.memberInfoBox}>
-            <Text style={styles.memberName} onPress={() => navigation.navigate('Lawfirm Details', { lawfirm : item })}>{item.lawfirmName}</Text>
+            <Text style={styles.memberName}>{item.lawfirmName}</Text>
             <Text style={styles.memberLawType} onPress={() => navigation.navigate('Lawfirm Details', { lawfirm : item })}>{item.practiceArea}</Text>
+            {/* <Text style={styles.memberPrice} onPress={() => navigation.navigate('Lawfirm Details', { lawfirm : item })}>{item.price}</Text> */}
             </View>
             <View style={styles.iconBox}>
             <AntDesign name="right" size={20} color={Color.primary} onPress={() => navigation.navigate('Lawfirm Details', { lawfirm : item })}/>
@@ -91,10 +97,10 @@ function LawfirmScreen() {
         </View>
       
       </View>
-      <StatusBar backgroundColor={Color.primary} barStyle="light-content"/>
         </View>
-
-     </ImageBackground>
+     <StatusBar backgroundColor={Color.primary} barStyle="light-content">
+     </StatusBar>
+    </ImageBackground>
    );
  }
  const styles = StyleSheet.create({
@@ -105,12 +111,11 @@ function LawfirmScreen() {
        
     },
     navContainer: {
-    // backgroundColor: '#fff',
     width: '100%',
     height: 50,
     alignItems: 'center',
     flexDirection: 'row',
-    margin: 3,
+    marginTop: 30,
     },
 
     pointHome: {
@@ -121,26 +126,23 @@ function LawfirmScreen() {
 
 
     backgroundOpacity: {
-      // flex: 1,
        width: '100%',
         height: '100%',
        //  backgroundColor: Color.secondary,
        backgroundColor: Color.dark,
-       marginBottom: 100,
+      //  paddingBottom: 100,
        
     },
 
     companyOurteamContianer: {
-       width: '100%',
-       height: '100%',
-      //  width: '94%',
-      //  height: '50%',
+       width: '94%',
+       height: '75%',
        alignSelf: 'center',
+       borderTopStartRadius: 10,
+       borderTopEndRadius: 10, 
+       borderBottomStartRadius: 10,
+       borderBottomEndRadius: 10, 
        paddingBottom: 100,
-      //  borderTopStartRadius: 10,
-      //  borderTopEndRadius: 10, 
-      //  borderBottomStartRadius: 10,
-      //  borderBottomEndRadius: 10, 
       
       },
 
@@ -159,10 +161,9 @@ function LawfirmScreen() {
       },
 
       contianer: {
-      //  flex: 1,
+       flex: 1,
       width: '100%',
-      height: '100%',
-      // marginBottom: 100,
+      height: '98%',
 
      },
      heading: {
@@ -173,8 +174,7 @@ function LawfirmScreen() {
      memberContainer: {
        marginTop: 20,
        flexDirection: 'row',
-       width: '100%',
-       height: '100%',
+      
      },
      memberImagebBox: {
     width: 120,
@@ -214,11 +214,7 @@ function LawfirmScreen() {
        color: Color.primary,
        fontSize: 12,
      },
-     // headerLink: {
-     //   width: '100%',
-     //   width: 100,
-     //   backgroundColor: Color.white,
-     // },
+  
      lawyerBtn:{
       color: Color.white,
       backgroundColor: Color.white,
@@ -229,6 +225,8 @@ function LawfirmScreen() {
       justifyContent: 'center',
      },
      lawfirmBtn: {
+       
+
        color: Color.white,
        backgroundColor: Color.primary,
        borderRadius: 20,
@@ -238,7 +236,7 @@ function LawfirmScreen() {
       justifyContent: 'center',
      },
      btnText1:{
-        color: Color.dark,
+      color: Color.dark,
        textAlign: 'center',
        fontWeight: 'bold',
      },
@@ -246,6 +244,7 @@ function LawfirmScreen() {
        textAlign: 'center',
        fontWeight: 'bold',
        color: Color.white,
+     
      },
 
      searchContainer: {
@@ -264,3 +263,4 @@ function LawfirmScreen() {
 });
 
 export default  LawfirmScreen;
+

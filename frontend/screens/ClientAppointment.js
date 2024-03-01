@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import { SimpleLineIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import axios from 'axios';
 import { URL } from './Constants';
 import Color from '../Config/Color';
+import { useNavigation } from '@react-navigation/native';
 
-const ClientAppointment = ({ navigation }) => {
+const ClientAppointment = ({}) => {
+    const navigation = useNavigation();
     const [bookappointments, setBookappointments] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    console.log(bookappointments);
+    const navigateToAppointmentDetails = (appointment) => {
+        navigation.navigate('Appointment Details', { appointment });
+    };
 
     useFocusEffect(
         React.useCallback(() => {
@@ -20,47 +23,30 @@ const ClientAppointment = ({ navigation }) => {
         }, [])
     );
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (bookappointments.length === 0) {
+                setIsLoading(false);
+            }
+        }, 3000); // Adjust the timeout duration as needed (in milliseconds)
+
+        return () => clearTimeout(timer);
+    }, [bookappointments]);
+
     const fetchBookappointmentData = async () => {
         try {
-            const accessToken = await AsyncStorage.getItem('accessToken');
-            const response = await axios.get(`${URL}/user-appointment/1`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            });
-            setBookappointments(response.data.reverse());
+            const id = await AsyncStorage.getItem('UserId');
+            const response = await axios.get(`${URL}/user-appointment/${id}`);
+
+            setBookappointments(response.data);
             setIsLoading(false);
         } catch (error) {
-            console.log(error.response)
+            console.log(error.response);
             if (error.response && error.response.status === 401) {
                 Alert.alert('Error', 'Failed to fetch appointment. Please try again later.');
-            };
-        }
-    };
-    // ${appointmentId}
-    const handleDeleteAppointment = async () => {
-        try {
-            const accessToken = await AsyncStorage.getItem('accessToken');
-            const response = await axios.delete(`${URL}/delete-bookappointment/${appointmentId}`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            });
-            // Check if the deletion was successful
-            if (response.status === 200) {
-                // Refresh the appointment list after successful deletion
-                fetchBookappointmentData();
-                Alert.alert('Success', 'Appointment deleted successfully.');
-            } else {
-                // Handle other status codes if needed
-                Alert.alert('Error', 'Failed to delete appointment. Please try again later.');
             }
-        } catch (error) {
-            console.log(error.response)
-            Alert.alert('Error', 'Failed to delete appointment. Please try again later.');
         }
     };
-    
 
     return (
         <View style={styles.container}>
@@ -71,31 +57,26 @@ const ClientAppointment = ({ navigation }) => {
             ) : !bookappointments.length ? (
                 <View style={styles.NoTask}>
                     <Text style={styles.boldText}>No Appointment</Text>
-                    <Text style={styles.subHeaderText}>Tap the Add Button to Add Appointment</Text>
+                    <Text style={styles.subHeaderText}>Click Book Now and book an appointment with a Lawyer or Lawfirm</Text>
+                    <Text style={{color: Color.primary, fontWeight: 'bold'}}  onPress={() => navigation.navigate('Lawyers/Lawfirms')}>Book Now!!</Text>
                 </View>
             ) : (
                 <ScrollView showsVerticalScrollIndicator={false}>
                     {bookappointments.map((bookappointment, index) => (
-                        <View
-                            key={index}
-                            style={[
-                                styles.bookappointmentItem,
-                                index === bookappointments.length - 1 && styles.lastChildPadding,
-                            ]}
-                        >
-                            <View style={styles.appointmentContainer}>
-                                <View style={styles.row}>
-                                <Text style={styles.service}>{bookappointment.service}</Text>
-                                <TouchableOpacity onPress={() => handleDeleteAppointment(bookappointment.id)}>
-                                <SimpleLineIcons name="trash" size={24} color={Color.primary} />
-                            </TouchableOpacity>
+                        <TouchableOpacity key={index} onPress={() => navigateToAppointmentDetails(bookappointment)}>
+                            <View
+                                style={[
+                                    styles.bookappointmentItem,
+                                    index === bookappointments.length - 1 && styles.lastChildPadding,
+                                ]}
+                            >
+                                <View style={styles.appointmentContainer}>
+                                    <Text style={styles.service}>{bookappointment.service}</Text>
+                                    <Text style={styles.commPres}>{bookappointment.communicationPreferences}</Text>
+                                    <Text style={styles.number}>{bookappointment.appointmentDate}</Text>
                                 </View>
-                               
-                                <Text style={styles.name}>{bookappointment.fullName}</Text>
-                                <Text style={styles.number}>{bookappointment.phoneNumber}</Text>
                             </View>
-                           
-                        </View>
+                        </TouchableOpacity>
                     ))}
                 </ScrollView>
             )}
@@ -103,12 +84,11 @@ const ClientAppointment = ({ navigation }) => {
     );
 };
 
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
-        marginTop: 30
+        marginTop: 30,
     },
     header: {
         marginBottom: 16,
@@ -117,11 +97,14 @@ const styles = StyleSheet.create({
         alignContent: "center"
     },
     appointmentContainer:{
-    margin: 10,
-    backgroundColor: "#eee",
-    width: '80%',
-    height: 100,
+    padding: 10,
     paddingHorizontal: 10,
+    backgroundColor: "#eee",
+    marginBottom: 10,
+    width: '100%',
+    paddingHorizontal: 20,
+    height: 80,
+    justifyContent: 'center'
     
     },
     service: {
@@ -138,7 +121,7 @@ const styles = StyleSheet.create({
     //   paddingRight: 20,
 
     },
-    name:{
+    commPres:{
         // paddingLeft: 20,
 
     },
@@ -151,7 +134,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     subHeaderText: {
-        fontSize: 16,
+        fontSize: 14,
+        textAlign: 'center',
+        padding: 10,
         
     },
     addButton: {

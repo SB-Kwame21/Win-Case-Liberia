@@ -5,7 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Color from '../Config/Color';
 
-const ProfileScreen = ({ navigation }) => {
+const ClientProfileScreen = ({ navigation }) => {
     const [currentUserData, setCurrentUserData] = useState([]);
     const [image, setImage] = useState(null);
 
@@ -115,12 +115,12 @@ const styles = StyleSheet.create({
         height: '45%'
     },
     navContainer: {
-        // backgroundColor: '#fff',
         width: '100%',
         height: 50,
         alignItems: 'center',
         flexDirection: 'row',
-        marginBottom: 125,
+        marginBottom: 100,
+        marginTop: 50,
         },
    
         pointHome: {
@@ -170,4 +170,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ProfileScreen;
+export default ClientProfileScreen;

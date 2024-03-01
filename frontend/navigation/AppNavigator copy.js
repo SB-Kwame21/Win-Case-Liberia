@@ -54,12 +54,12 @@ import LawfirmAppointmentDetailsScreen from '../screens/LawfirmAppointmentDetail
 
 
 const Drawer = createDrawerNavigator();
-const AuthDrawer = createDrawerNavigator();
+const AuthStack = createDrawerNavigator();
 
 const AppNavigator = () => {
     return (
         <NavigationContainer>
-            <AuthDrawer.Navigator
+            <AuthStack.Navigator
             screenOptions={{
                 headerShown: false, 
                   // drawerActiveBackgroundColor: Color.white,
@@ -74,16 +74,16 @@ const AppNavigator = () => {
                }}
             initialRouteName="Welcome" headerMode="none">
               
-              <AuthDrawer.Screen
+              <AuthStack.Screen
                     name="Welcome"
                     component={WelcomeScreen}
                     options={{
                         headerShown: false,  
                     }}
                 />
-                    <AuthDrawer.Screen
-                    name="ClientMainDrawer"
-                    component={ClientMainDrawer}
+                    <AuthStack.Screen
+                    name="MainDrawer"
+                    component={MainDrawer}
                     options={{
                         headerShown: false,
                         drawerItemStyle: { display: 'none' } 
@@ -91,7 +91,7 @@ const AppNavigator = () => {
                     }}
                 />
 
-                <AuthDrawer.Screen
+                <AuthStack.Screen
                     name="LawyerMainDrawer"
                     component={LawyerMainDrawer}
                     options={{
@@ -101,7 +101,7 @@ const AppNavigator = () => {
                     }}
                 />
 
-            <AuthDrawer.Screen
+            <AuthStack.Screen
                     name="LawfirmMainDrawer"
                     component={LawfirmMainDrawer}
                     options={{
@@ -110,12 +110,12 @@ const AppNavigator = () => {
 
                     }}
                 />
-            </AuthDrawer.Navigator>
+            </AuthStack.Navigator>
         </NavigationContainer>
     );
 };
 
-const ClientMainDrawer = () => {
+const MainDrawer = () => {
     return (
          <Drawer.Navigator 
     screenOptions={{
@@ -125,8 +125,7 @@ const ClientMainDrawer = () => {
         drawerStyle: {
             backgroundColor: Color.secondary,
         }
-    }}
-    initialRouteName='SignIn'
+    }}initialRouteName='SignIn'
     >
         
              <Drawer.Screen name="SignIn" component={ClientSignInScreen}
@@ -248,8 +247,7 @@ const LawyerMainDrawer = () => {
         drawerStyle: {
             backgroundColor: Color.secondary,
         }
-    }}
-    initialRouteName='LawyerSignIn'
+    }}initialRouteName='LawyerSignIn'
     >
             <Drawer.Screen name="LawyerSignIn" component={LawyerSignIn}
             options={{
@@ -303,7 +301,7 @@ const LawyerMainDrawer = () => {
                     drawerIcon: ({ color, size }) => (
                         <FontAwesome5 name="unity" size={20} color={Color.primary}/>
                     ),
-                    drawerItemStyle: { display: 'none' } 
+                    // drawerItemStyle: { display: 'none' } 
                     // headerShown: true,
                   }}
             />
@@ -346,8 +344,7 @@ const LawyerMainDrawer = () => {
             drawerStyle: {
                 backgroundColor: Color.secondary,
             }
-        }}
-        initialRouteName='LawfirmSignIn'
+        }}initialRouteName='LawfirmSignIn'
         >
              <Drawer.Screen name="LawfirmSignIn" component={LawfirmSignIn}
             options={{
@@ -450,4 +447,3 @@ const LawyerMainDrawer = () => {
 
 
 export default AppNavigator;
-

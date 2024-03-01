@@ -11,7 +11,7 @@ from app.models import Lawfirms
 from app.schemas.lawfirm import LawfirmSchema
 
 lawfirm_schema = LawfirmSchema()
-lawfirms_schema = LawfirmSchema()
+lawfirms_schema = LawfirmSchema(many=True)
 
 class CreateLawfirmResource(Resource):
     @classmethod
@@ -36,19 +36,33 @@ class GetAllLawfirmResource(Resource):
         lawfirm = Lawfirms.query.all()
         return lawfirm_schema.dump(lawfirm, many=True)
     
+    
+    
 
+
+# class UserLawfirmResource(Resource):
+#     @classmethod
+#     @jwt_required() 
+#     def get(cls):
+
+#         user_id = get_jwt_identity()
+
+#         user_lawfirms = Lawfirms.query.filter_by(user_id=user_id).all()
+#         serialized_lawfirms =  lawfirms_schema.dump(user_lawfirms)
+
+#         return {"Lawfirm": serialized_lawfirms}, 200
+    
 
 class UserLawfirmResource(Resource):
     @classmethod
-    @jwt_required() 
-    def get(cls):
+    def get(cls, user_id: int):
+        lawfirm = Lawfirms.query.filter_by(user_id=user_id).first()
 
-        user_id = get_jwt_identity()
-
-        user_lawfirms = Lawfirms.query.filter_by(user_id=user_id).all()
-        serialized_lawfirms =  lawfirms_schema.dump(user_lawfirms)
-
-        return {"Lawfirm": serialized_lawfirms}, 200
+        if lawfirm:
+            serialized_lawfirm = lawfirm_schema.dump(lawfirm)
+            return {"Lawfirm": serialized_lawfirm}, 200
+        else:
+            return {"message": "Lawfirm not found for the specified user ID"}, 404
     
 
 

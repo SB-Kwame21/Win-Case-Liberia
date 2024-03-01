@@ -21,11 +21,6 @@ import Color from '../Config/Color';
 function LawfirmDetailsScreen({route}) {
     const navigation = useNavigation();
     const { lawfirm } = route.params;
-
-    const handleIlgWebsitePress = () => {
-        const websiteUrl = 'https://www.ilgliberia.com/';
-        Linking.openURL(websiteUrl);
-      };
   
     return (
       <ImageBackground
@@ -40,7 +35,7 @@ function LawfirmDetailsScreen({route}) {
               <Image source={{ uri: lawfirm.logoImage }} style={styles.memberImage} />
               <View style={styles.navContainer}>
            <AntDesign name="left" size={24} color={Color.white} onPress={() => navigation.navigate('Lawfirms')}/>
-           <Text style={styles.pointBack}>go back</Text>
+           <Text style={styles.pointBack} onPress={() => navigation.navigate('Lawfirms')}>Back</Text>
            </View>
         <View style={styles.container}>
           <View style={styles.memberInfoHeadingBox}>
@@ -63,9 +58,7 @@ function LawfirmDetailsScreen({route}) {
         <Text style={styles.infoHead}>Email</Text>
         <Text style={styles.infoStyle}>{lawfirm.email}</Text>
         <Text style={styles.infoHead}>Website</Text>
-        <TouchableOpacity onPress={handleIlgWebsitePress}>
         <Text style={styles.infoStyle}>{lawfirm.website}</Text>
-        </TouchableOpacity>
         <Text style={styles.infoStyle}>{lawfirm.yearsOfPractice}</Text>
         <Text style={styles.infoHead}>Bar Association Membership</Text>
         <Text style={styles.infoStyle}>{lawfirm.barAssociationsMembership}</Text>
@@ -74,9 +67,11 @@ function LawfirmDetailsScreen({route}) {
         <Text style={styles.infoHead}>Description</Text>
         <Text style={styles.infoStyle}>{lawfirm.description}</Text>
         </View>
-        <TouchableOpacity style={styles.opacityBody} onPress={() => navigation.navigate('Appointment Booking')} >
-              <Text style={styles.appointmenText}  onPress={() => navigation.navigate('Appointment Booking')}>Book an appointment</Text>
-             </TouchableOpacity>
+        <TouchableOpacity 
+  style={styles.opacityBody} 
+  onPress={() => navigation.navigate('Appointment Booking', { lawfirmId: lawfirm.id })} >
+  <Text style={styles.appointmenText}>Book an appointment</Text>
+</TouchableOpacity>
         </ScrollView>
        
         </View>
@@ -106,7 +101,7 @@ function LawfirmDetailsScreen({route}) {
     height: 50,
     alignItems: 'center',
     flexDirection: 'row',
-    margin: 3,
+    marginTop: 30,
     position: 'absolute',
     },
     pointBack:{

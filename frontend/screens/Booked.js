@@ -11,7 +11,7 @@ function Booked({navigation}) {
   return (
     <ImageBackground
     style={styles.background}
-    source={require("../assets/background.jpeg")}
+    source={require("../assets/back.jpg")}
     resizeMode="cover"
     >
         <View style= {styles.backgroundOpacity}>
@@ -29,7 +29,7 @@ function Booked({navigation}) {
             <Text style={styles.homeLinkText}  onPress={() => navigation.navigate('Home')}>Back to Home</Text>
            </TouchableOpacity>
         </View>
-     <StatusBar style={styles.statusBar}/>
+        <StatusBar translucent={true} backgroundColor='transparent' barStyle="light-content" />
     </ImageBackground>
 )
 };

@@ -46,7 +46,11 @@ const ClientSignInScreen = function ({ navigation }) {
             AsyncStorage.setItem('userName', username);
 
             // Navigate to the authenticated
-            navigation.navigate('Home')
+            // navigation.navigate('Home')
+            navigation.reset({
+                index: 0,
+                routes: [{ name: 'Home' }],
+            });
 
         }).catch((err) => {
             // Handle login failure
@@ -66,8 +70,6 @@ const ClientSignInScreen = function ({ navigation }) {
         resizeMode="cover"
         >
             <View style= {styles.backgroundOpacity}>
-         
-  
             <SafeAreaView
             SafeAreaView showsVerticalScrollIndicator={false}
             style={styles.container}
@@ -102,14 +104,13 @@ const ClientSignInScreen = function ({ navigation }) {
                 </TouchableOpacity>
   
                 <TouchableOpacity>
-                    <Text style={styles.optionText} onPress={() => navigation.navigate('Update Password')} >Forget Password?</Text>
+                    <Text style={styles.optionText}>Forget Password?</Text>
+                    {/* onPress={() => navigation.navigate('Update Password')} */}
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
-  
-     
             </View>
-         <StatusBar backgroundColor={Color.primary} barStyle="light-content" />
+            <StatusBar translucent={true} backgroundColor='transparent' barStyle="light-content" />
         </ImageBackground>
        );
      }
@@ -120,17 +121,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
        
-    },
-    navContainer: {
-    width: '100%',
-    height: 50,
-    alignItems: 'center',
-    flexDirection: 'row',
-    margin: 3,
-    },
-    
-    
-    
+    },    
     backgroundOpacity: {
        width: '100%',
         height: '100%',

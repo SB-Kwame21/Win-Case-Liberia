@@ -1,104 +1,178 @@
+// import React, { useState, useEffect } from 'react';
+// import {View,
+//         Text, 
+//         ImageBackground, 
+//         StyleSheet, 
+//         StatusBar,  
+//         FlatList, 
+//         Image, 
+//         TextInput } from 'react-native';
+  
+// import { AntDesign,  } from '@expo/vector-icons';
+  
+//   import { URL } from './Constants';
+//   import axios from 'axios';
+  
+//   import Color from '../Config/Color';
+  
+//   import { useNavigation } from '@react-navigation/native';
+  
+//   function  LawyerCommunity() {
+//     const navigation = useNavigation();
+//     const [Lawyers, setLawyers] = useState([]);
+//     const [searchQuery, setSearchQuery] = useState('');
+//     const [filteredLawyers, setFilteredLawyers] = useState([]);
+   
+  
+//     useEffect(() => {
+//       axios.get(`${URL}/all-lawyers`)
+//         .then((response) => {
+//           setLawyers(response.data);
+//         })
+//         .catch((error) => {
+//           console.error('Error fetching Lawyers:', error);
+//         });
+//     }, []);
+  
+  
+//     const filterLawyers = (query) => {
+//       setSearchQuery(query);
+//       const filtered = Lawyers.filter(lawyer =>
+//         lawyer.fullname.toLowerCase().includes(query.toLowerCase())
+//       );
+//       setFilteredLawyers(filtered);
+//     };
+  
+//     return (
+//       <ImageBackground
+//       style={styles.background}
+//       source={require("../assets/back.jpg")}
+//       resizeMode="cover"
+//       >
+//           <View style= {styles.backgroundOpacity}>
+//            <View style={styles.navContainer}>
+//            <AntDesign name="left" size={24} color={Color.white} onPress={() => navigation.navigate('Dashboard')}/>
+//            <Text style={styles.pointHome} onPress={() => navigation.navigate('Dashboard')}>Lawyers Community</Text>
+//            </View>
+//            <View style={styles.searchContainer}>
+//             <TextInput
+//               style={styles.searchInput}
+//               placeholder="Search Lawyers"
+//               value={searchQuery}
+//               onChangeText={filterLawyers}
+//             />
+//           </View>
+//           <View style={styles.companyOurteamContianer}>
+//           <View style={styles.contianer}>
+//           <FlatList
+//             data={filteredLawyers}
+//           // data={Lawfirms}
+//           keyExtractor={(item) => item.id.toString()}
+//           renderItem={({ item }) => (
+//             <View style={styles.memberContainer}>
+//               <View style={styles.memberImagebBox}>
+//               <Image source={{ uri: item.image }} style={styles.memberImage} />
+//               </View>
+//               <View style={styles.memberInfoBox}>
+//               <Text style={styles.memberName}>{item.fullname}</Text>
+//               <Text style={styles.memberLawType}>{item.practiceArea}</Text>
+//               <Text style={styles.memberLawType}>{item.city}</Text>
+//               </View>
+//               {/* <View style={styles.iconBox}>
+//               <AntDesign name="right" size={20} color={Color.primary} onPress={() => navigation.navigate('Lawyer Details', { lawyer : item })}/>
+//               </View> */}
+//             </View>
+//           )}
+//         />
+//           </View>
+        
+//         </View>
+//           </View>
+//        <StatusBar backgroundColor={Color.primary} barStyle="light-content">
+//        </StatusBar>
+//       </ImageBackground>
+//      );
+//    }
+
 import React, { useState, useEffect } from 'react';
-import {View,
-        Text, 
-        ImageBackground, 
-        StyleSheet, 
-        StatusBar,  
-        FlatList, 
-        Image, 
-        TextInput } from 'react-native';
-  
-import { AntDesign,  } from '@expo/vector-icons';
-  
-  import { URL } from './Constants';
-  import axios from 'axios';
-  
-  import Color from '../Config/Color';
-  
-  import { useNavigation } from '@react-navigation/native';
-  
-  function  LawyerCommunity() {
-    const navigation = useNavigation();
-    const [Lawyers, setLawyers] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [filteredLawyers, setFilteredLawyers] = useState([]);
-  
-    useEffect(() => {
-      axios.get(`${URL}/all-lawyers`)
-        .then((response) => {
-          setLawyers(response.data);
-        })
-        .catch((error) => {
-          console.error('Error fetching Lawyers:', error);
-        });
-    }, []);
-  
-  
-    const filterLawyers = (query) => {
-      setSearchQuery(query);
-      const filtered = Lawyers.filter(lawyer =>
-        lawyer.fullname.toLowerCase().includes(query.toLowerCase())
-      );
-      setFilteredLawyers(filtered);
-    };
-  
-    return (
-      <ImageBackground
+import { View, Text, ImageBackground, StyleSheet, StatusBar, FlatList, Image, TextInput } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
+import axios from 'axios';
+import { URL } from './Constants';
+import Color from '../Config/Color';
+import { useNavigation } from '@react-navigation/native';
+
+function LawyerCommunity() {
+  const navigation = useNavigation();
+  const [lawyers, setLawyers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredLawyers, setFilteredLawyers] = useState([]);
+
+  useEffect(() => {
+    // Fetch all lawyers from the server when the component mounts
+    axios.get(`${URL}/all-lawyers`)
+      .then((response) => {
+        setLawyers(response.data);
+        setFilteredLawyers(response.data); // Initially, display all lawyers
+      })
+      .catch((error) => {
+        console.error('Error fetching Lawyers:', error);
+      });
+  }, []);
+
+  // Function to filter lawyers based on search query
+  const filterLawyers = (query) => {
+    setSearchQuery(query);
+    const filtered = lawyers.filter(lawyer =>
+      lawyer.fullname.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredLawyers(filtered);
+  };
+
+  return (
+    <ImageBackground
       style={styles.background}
       source={require("../assets/back.jpg")}
-      resizeMode="cover"
-      >
-          <View style= {styles.backgroundOpacity}>
-           <View style={styles.navContainer}>
-           <AntDesign name="left" size={24} color={Color.white} onPress={() => navigation.navigate('Dashboard')}/>
-           <Text style={styles.pointHome}>Lawyers Community</Text>
-           </View>
-           <View style={styles.searchContainer}>
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Search Lawyers"
-              value={searchQuery}
-              onChangeText={filterLawyers}
+      resizeMode="cover">
+      <View style={styles.backgroundOpacity}>
+        <View style={styles.navContainer}>
+          <AntDesign name="left" size={24} color={Color.white} onPress={() => navigation.navigate('Dashboard')} />
+          <Text style={styles.pointHome} onPress={() => navigation.navigate('Dashboard')}>Lawyers Community</Text>
+        </View>
+        <View style={styles.searchContainer}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search Lawyers"
+            value={searchQuery}
+            onChangeText={filterLawyers}
+          />
+        </View>
+        <View style={styles.companyOurteamContianer}>
+          <View style={styles.contianer}>
+            <FlatList
+              data={filteredLawyers} // Render the filtered list of lawyers
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => (
+                <View style={styles.memberContainer}>
+                  <View style={styles.memberImagebBox}>
+                    <Image source={{ uri: item.image }} style={styles.memberImage} />
+                  </View>
+                  <View style={styles.memberInfoBox}>
+                    <Text style={styles.memberName}>{item.fullname}</Text>
+                    <Text style={styles.memberLawType}>{item.practiceArea}</Text>
+                    <Text style={styles.memberLawType}>{item.city}</Text>
+                  </View>
+                </View>
+              )}
             />
           </View>
-  
-        
-          {/* <View style={{width: '100%', height: 100, flexDirection: 'row',
-           justifyContent: 'space-around', alignItems: 'center', }}>
-            <TouchableOpacity style={styles.lawyerBtn} onPress={() => navigation.navigate('Lawyers/Lawfirms')}><Text style={styles.btnText1}>Lawyers</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.lawfirmBtn} onPress={() => navigation.navigate('Lawfirms')}><Text Text style={styles.btnText2}>Lawfirms</Text></TouchableOpacity>
-          </View> */}
-          <View style={styles.companyOurteamContianer}>
-          <View style={styles.contianer}>
-          <FlatList
-            data={filteredLawyers}
-          // data={Lawfirms}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.memberContainer}>
-              <View style={styles.memberImagebBox}>
-              <Image source={{ uri: item.image }} style={styles.memberImage} />
-              </View>
-              <View style={styles.memberInfoBox}>
-              <Text style={styles.memberName}>{item.fullname}</Text>
-              <Text style={styles.memberLawType}>{item.practiceArea}</Text>
-              <Text style={styles.memberLawType}>{item.city}</Text>
-              </View>
-              {/* <View style={styles.iconBox}>
-              <AntDesign name="right" size={20} color={Color.primary} onPress={() => navigation.navigate('Lawyer Details', { lawyer : item })}/>
-              </View> */}
-            </View>
-          )}
-        />
-          </View>
-        
         </View>
-          </View>
-       <StatusBar backgroundColor={Color.primary} barStyle="light-content">
-       </StatusBar>
-      </ImageBackground>
-     );
-   }
+      </View>
+      <StatusBar backgroundColor={Color.primary} barStyle="light-content" />
+    </ImageBackground>
+  );
+}
+
    const styles = StyleSheet.create({
       background: {
        flex: 1,
@@ -107,12 +181,11 @@ import { AntDesign,  } from '@expo/vector-icons';
          
       },
       navContainer: {
-      // backgroundColor: '#fff',
       width: '100%',
       height: 50,
       alignItems: 'center',
       flexDirection: 'row',
-      margin: 3,
+      marginTop: 30,
       },
   
       pointHome: {
@@ -125,7 +198,6 @@ import { AntDesign,  } from '@expo/vector-icons';
       backgroundOpacity: {
          width: '100%',
           height: '100%',
-         //  backgroundColor: Color.secondary,
          backgroundColor: Color.dark,
          
       },
@@ -169,8 +241,6 @@ import { AntDesign,  } from '@expo/vector-icons';
        memberContainer: {
          marginTop: 20,
          flexDirection: 'row',
-         // marginRight: 15,
-         // justifyContent: 'space-evenly',
        },
        memberImagebBox: {
       width: 120,
@@ -210,11 +280,7 @@ import { AntDesign,  } from '@expo/vector-icons';
          color: Color.primary,
          fontSize: 12,
        },
-       // headerLink: {
-       //   width: '100%',
-       //   width: 100,
-       //   backgroundColor: Color.white,
-       // },
+ 
        lawyerBtn:{
         color: Color.white,
         backgroundColor: Color.primary,

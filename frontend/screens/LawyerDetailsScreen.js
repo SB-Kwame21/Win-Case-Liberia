@@ -32,7 +32,7 @@ import Color from '../Config/Color';
             <Image source={{ uri: lawyer.image }} style={styles.memberImage} />
             <View style={styles.navContainer}>
          <AntDesign name="left" size={24} color={Color.white} onPress={() => navigation.navigate('Lawyers/Lawfirms')}/>
-         <Text style={styles.pointBack}>go back</Text>
+         <Text style={styles.pointBack} onPress={() => navigation.navigate('Lawyers/Lawfirms')}>Back</Text>
          </View>
       <View style={styles.container}>
         <View style={styles.memberInfoHeadingBox}>
@@ -50,10 +50,6 @@ import Color from '../Config/Color';
       <Text style={styles.infoStyle}>{lawyer.address}</Text>
       <Text style={styles.infoHead}>City</Text>
       <Text style={styles.infoStyle}>{lawyer.city}</Text>
-      <Text style={styles.infoHead}>State</Text>
-      <Text style={styles.infoStyle}>{lawyer.state}</Text>
-      <Text style={styles.infoHead}>Zip Cpde</Text>
-      <Text style={styles.infoStyle}>{lawyer.zipCode}</Text>
       <Text style={styles.infoHead}>Country</Text>
       <Text style={styles.infoStyle}>{lawyer.country}</Text>
       <Text style={styles.infoHead}>Phone</Text>
@@ -69,9 +65,12 @@ import Color from '../Config/Color';
       <Text style={styles.infoHead}>Language</Text>
       <Text style={styles.infoStyle}>{lawyer.language}</Text>
       </View>
-      <TouchableOpacity style={styles.opacityBody} onPress={() => navigation.navigate('Appointment Booking')} >
-            <Text style={styles.appointmenText}  onPress={() => navigation.navigate('Appointment Booking')}>Book an appointment</Text>
-           </TouchableOpacity>
+           <TouchableOpacity 
+  style={styles.opacityBody} 
+  onPress={() => navigation.navigate('Appointment Booking', { lawyerId: lawyer.id })} >
+  <Text style={styles.appointmenText}>Book an appointment</Text>
+</TouchableOpacity>
+   
       </ScrollView>
      
       </View>
@@ -102,7 +101,7 @@ navContainer: {
   height: 50,
   alignItems: 'center',
   flexDirection: 'row',
-  margin: 3,
+  marginTop: 40,
   position: 'absolute',
   },
   pointBack:{
@@ -126,7 +125,7 @@ container: {
   backgroundColor: Color.white,
   width: '96%',
   height: 480 ,
-  marginTop: '66%',
+  marginTop: '75%',
   // marginLeft: 4,
   borderTopStartRadius: 10,
   borderTopEndRadius: 10, 
@@ -135,6 +134,7 @@ container: {
   position: 'absolute',
   alignSelf: 'center',
 },
+
 memberInfoHeadingBox:{
 flexDirection: 'row',
 width: '100%',
@@ -145,18 +145,7 @@ borderTopEndRadius: 10,
 padding: 30,
 
 },
-memberInfoHeading:{
-marginTop: 10,
-width: '40%',
-height: '100%',
-},
-memberInfoHeadingIcons:{
-flexDirection: 'row',
-justifyContent: 'space-evenly',
-width: '60%',
-height: '100%',
-// marginTop: 10,
-},
+
 
 infoDetails: {
   marginLeft: 30,

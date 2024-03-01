@@ -16,7 +16,7 @@ function OurServicesScreen({navigation}) {
         <View style= {styles.backgroundOpacity}>
          <View style={styles.navContainer}>
          <AntDesign name="left" size={24} color={Color.white} onPress={() => navigation.navigate('Home')}/>
-         <Text style={styles.pointHome}>Our Services</Text>
+         <Text style={styles.pointHome} onPress={() => navigation.navigate('Home')}>Our Services</Text>
          </View>
 
         <View style={styles.companyServicesContianer}>
@@ -86,7 +86,7 @@ function OurServicesScreen({navigation}) {
      height: 50,
      alignItems: 'center',
      flexDirection: 'row',
-     margin: 3,
+     marginTop: 50,
      },
 
      pointHome: {
@@ -104,11 +104,12 @@ function OurServicesScreen({navigation}) {
      },
 
      companyServicesContianer: {
-        width: '95%',
-        height: '85%',
+        // width: '95%',
+        // height: '85%',
+        flex: 1,
         backgroundColor: '#fff',
         alignSelf: 'center',
-        marginTop: 20,
+        marginTop: 15,
         // borderRadius: 10,
         borderTopStartRadius: 10,
         borderTopEndRadius: 10, 
@@ -189,8 +190,9 @@ function OurServicesScreen({navigation}) {
    
               serviceInfoContainer1 :{
                width: '100%',
-              paddingHorizontal: 20,
-               height: 280,
+              // paddingHorizontal: 20,
+
+               height: 300,
               },
    
               serviceInPara1: {
